@@ -132,9 +132,9 @@ class FrequentistPolicy(Policy):
         if agent.n == self.N:
             agent.optimize()
         if agent.n < self.N:
-            agent.rand_choice()
+            return agent.rand_choice()
         else:
-            agent.optimal_choice()
+            return agent.optimal_choice()
 
 
 

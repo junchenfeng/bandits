@@ -150,12 +150,11 @@ class FrequentistAgent(Agent):
     def __init__(self, bandit, policy):
         super(FrequentistAgent, self).__init__(bandit, policy)
         self.n = -1
-        self.num_arm = max(self.value_estimates.shape)
+        self.num_arm = max(self.value_estimates.shape) - 1
         self._last_choice = 0
         self._optimal_choice = None
 
     def rand_choice(self):
-
         self.n += 1
         if self.n > 0:
             # absolute even distribution
@@ -168,9 +167,11 @@ class FrequentistAgent(Agent):
         self._optimal_choice = np.argmax(self.value_estimates)
 
     def optimal_choice(self):
+        self.n += 1
         return self._optimal_choice
 
     def reset(self):
+        super(FrequentistAgent, self).reset()
         self.n = -1
         self._last_choice = 0
         self._optimal_choice = None
