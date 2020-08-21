@@ -127,11 +127,12 @@ class FrequentistPolicy(Policy):
 
     def __init__(self, n):
         self.N = n
-        self.n = 0
+        self.n = -1
         self._last_choice = None
         self._optimal_choice = None
 
     def choose(self, agent):
+        self.n += 1
         if self.n < self.N:
             if self._last_choice is None:
                 this_choice = 0
