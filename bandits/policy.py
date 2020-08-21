@@ -127,26 +127,14 @@ class FrequentistPolicy(Policy):
 
     def __init__(self, n):
         self.N = n
-        self.n = -1
-        self._last_choice = None
-        self._optimal_choice = None
 
     def choose(self, agent):
-        self.n += 1
-        if self.n < self.N:
-            if self._last_choice is None:
-                this_choice = 0
-            else:
-                # absolute even distribution
-                this_choice = (
-                    self._last_choice + 1
-                    if self._last_choice != max(agent.value_estimates.shape)
-                    else 0
-                )
-            return this_choice
-        elif self.n == self.N:
-            # not really a t-test. It saves the trouble of indecision. The intuition still holds
-            self._optimal_choice = np.argmax(agent.value_estimates)
-            return self._optimal_choice
+        if agent.n == self.N:
+            agent.optimize()
+        if agent.n < self.N:
+            agent.rand_choice()
         else:
-            return self._optimal_choice
+            agent.optimal_choice()
+
+
+
