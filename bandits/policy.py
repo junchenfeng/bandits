@@ -30,7 +30,12 @@ class EpsilonGreedyPolicy(Policy):
             return np.random.choice(len(agent.value_estimates))
         else:
             action = np.argmax(agent.value_estimates)
-            check = np.where(agent.value_estimates == agent.value_estimates[action])[0]
+            if len(agent.value_estimates) > 1:
+                dim = max(agent.value_estimates.shape)
+                value_estimates = agent.value_estimates.reshape(dim,)
+            else:
+                value_estimates = agent.value_estimates
+            check = np.where(value_estimates == value_estimates[action])[0]
             if len(check) == 1:
                 return action
             else:
